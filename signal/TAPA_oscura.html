@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+
+    <title>UNA CUBIERTA DISEÑADA CON HTML Y CSS</title>
+
+    <style>
+        /* VALORES QUE VIENEN DE DATABASE
+    Para este test les vamos a poner a las variables valores fijos
+
+    */
+        :root {
+            --lomo: 2.5cm;
+            /* acá se le entrega el valor exacto */
+            --alto: 21cm;
+            --ancho: 14cm;
+            --ancho-solapa: 8cm;
+
+            /*CÁLCULO MEDIDA TOTAL DE LA CUBIERTA */
+            --cubierta-total: calc(var(--ancho-solapa)*2 + var(--ancho)*2 + var(--lomo));
+
+            /*COLORES*/
+            --color-principal: cmyk(0%, 0%, 0%, 100%);
+            --color-textos: cmyk(0%, 0%, 0%, 0%);
+            --blanco: cmyk(0%, 0%, 0%, 0%);
+            --negro: cmyk(0%, 0%, 0%, 100%);
+            --lineas: cmyk(92%, 93%, 0%, 0%);
+            --capsula: cmyk(0%, 55%, 100%, 0%);
+
+            /*TIPOGRAFÍAS*/
+            --tipo-titulo: 'Poppins';
+            --tabla: 'Bebas Neue';
+            --awesome: 'Font Awesome', sans-serif;
+
+            /*IMÁGENES*/
+            --img-cubierta: url("https://images.pexels.com/photos/47344/dollar-currency-money-us-dollar-47344.jpeg");
+            --logo-grande: url("https://i.ibb.co/gv2mqcB/logo-grande.jpg");
+            /*de la caja de metad*/
+            --logo-lomo: url("https://res.cloudinary.com/dlxefudhn/image/upload/v1718823555/rk1m28auntekbdycujus.svg");
+            --isbn: url("https://i.ibb.co/QFp3RhC/EAN-13-ISBN-13-svg.jpg");
+            --recomendado1: url("https://data.livriz.com/REST/api/mediafile/getimagesecure/?url=https%3A%2F%2Fdata.livriz.com%2Fmedia%2Fmediaspace%2FF9AFB48D-741D-4834-B760-F59344EEFF34%2F4%2F1d671877-6b61-402b-8e3e-fb10c4d1b417%2F9786316595164.jpg");
+            --recomendado2: url("https://data.livriz.com/REST/api/mediafile/getimagesecure/?url=https%3A%2F%2Fdata.livriz.com%2Fmedia%2FMediaSpace%2FF9AFB48D-741D-4834-B760-F59344EEFF34%2F4%2Fa44991e4-6166-4476-888e-f13e9ade6cd2%2F9789874886934.jpg");
+
+            /* TEXTOS */
+            --texto-titulo: The Waves;
+            --texto-autor: Virginia Woolf;
+            --texto-sinopsis: Innovative and deeply poetic, The Waves is often regarded as Virginia Woolf’s masterpiece. It begins with six children—three boys and three girls—playing in a garden by the sea, and follows their lives as they grow up, experience friendship and love, and grapple with the death of their beloved friend Percival. Instead of describing their outward expressions of grief, Woolf draws her characters from the inside, revealing their inner lives: their aspirations, their triumphs and regrets, their awareness of unity and isolation. More than any of Virginia Woolf’s other novels, The Waves conveys the full complexity and richness of human experience.;
+        }
+
+        @font-face {
+            font-family: 'FontAwesome';
+            src: url('FontAwesome.otf') format('otf');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+
+        /* ESTA ES TODA LA CUBIERTA */
+
+
+        @page {
+
+            /* Page Sizes */
+
+            size: var(--cubierta-total) var(--alto);
+            /*trimbox*/
+            -ro-media-size: calc((--cubierta-total) + 2cm);
+            /* total */
+            bleed: 1cm;
+            -ro-crop-size: trim;
+            background: cmyk(0%, 0%, 0%, 0%);
+            background-size: cover;
+
+            /* Page Layout */
+            margin: -1cm;
+            padding: 0;
+
+            /* Printer Marks */
+            marks: crop -ro-bleed;
+
+        }
+
+        section.cubierta-con-demasia {
+            page: cubierta;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: calc(var(--alto) + 2cm);
+            width: calc(var(--cubierta-total) + 2cm);
+            background-color: grey;
+        }
+
+
+        div.cubierta {
+            height: var(--alto);
+            width: var(--cubierta-total);
+            position: relative;
+            display: grid;
+            grid-template-columns: var(--ancho-solapa) var(--ancho) var(--lomo) var(--ancho) var(--ancho-solapa);
+
+        }
+
+        /* ACÁ EMPIEZAN LAS PARTES INDEPENDIENTES */
+
+
+        /* SOLAPA 1 */
+        div.solapa1 {
+            display: grid;
+            height: var(--alto);
+            width: var(--ancho-solapa);
+            position: relative;
+            justify-content: center;
+            align-items: center;
+            z-index: 1;
+        }
+
+        div.contenedor-solapa1 {
+            display: grid;
+            justify-content: center;
+            align-items: center;
+            height: calc(var(--alto) - 1cm);
+            width: calc(var(--ancho-solapa) - 1.3cm);
+            border-radius: 0.5cm;
+            background-color: var(--negro);
+            position: relative;
+            z-index: 1;
+            grid-template-rows: 10% 40% 40% 10%;
+            color: beige;
+        }
+
+        div.recomendados {
+            /* no borrar esto porque se rompe*/
+        }
+
+        div.recomendados p.recommended {
+            font-family: var(--tipo-titulo);
+            color: var(--blanco);
+            font-size: 18pt;
+            font-weight: 600;
+            margin-bottom: 0.5cm;
+        }
+
+
+        div.recomendacion1,
+        div.recomendacion2 {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: -1cm;
+        }
+
+        img.recomendado1,
+        img.recomendado2 {
+            height: 6.5cm;
+            border-radius: 0.2cm;
+            background-color: grey;
+            border: 0.3cm solid grey;
+
+        }
+
+        div.sello-ed {
+            border: 1px solid orangered;
+        }
+
+        div.caja-sello-solapa1 {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 0cm;
+
+        }
+
+        img.sello-solapa1 {
+            width: 3cm;
+
+        }
+
+
+
+        /*CONTRATAPA */
+
+        div.contratapa {
+            display: grid;
+            height: var(--alto);
+            width: var(--ancho);
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+
+        }
+
+        div.contenedor-contratapa {
+            display: grid;
+            grid-template-rows: 30% 50% 20%;
+            justify-content: center;
+            align-items: center;
+            height: calc(var(--alto) - 1cm);
+            width: calc(var(--ancho) - 2cm);
+            border-radius: 0.5cm;
+            background-image: var(--img-cubierta);
+            background-size: cover;
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+
+        .contenedor-contratapa::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(to top,
+                    rgba(0, 0, 0, 1) 0%,
+                    rgba(0, 0, 0, 1) 70%,
+                    rgba(0, 0, 0, 0.5) 100%);
+            border-radius: 0;
+            /* No redondear las esquinas */
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /*** 30% ***/
+        div.caja-contratapa-titulo {
+            color: var(--blanco);
+            display: grid;
+            grid-template-rows: 70% 15% 15%;
+            justify-content: center;
+            align-items: center;
+            border-radius: 0.5cm;
+            position: relative;
+            z-index: 1;
+
+        }
+
+        /*70%*/
+        div.textos {}
+
+        p.titulo-ct {
+            font-size: 20pt;
+            font-family: var(--tipo-titulo);
+            text-align: center;
+            font-weight: 600;
+        }
+
+        p.autor-ct {
+            font-size: 22pt;
+            text-align: center;
+            font-family: var(--tipo-titulo);
+            font-weight: 600;
+        }
+
+        /*15%*/
+
+        div.capsula-ct {
+            background-color: var(--blanco);
+            border-radius: 0.9cm;
+            margin-left: 22%;
+            margin-right: 22%;
+            margin-bottom: 1cm;
+            height: 0.7cm;
+
+        }
+
+        p.capsula-ct {
+            color: var(--negro);
+            text-align: center;
+            font-family: var(--tipo-titulo);
+            font-size: 9pt;
+            font-weight: bold;
+            letter-spacing: 3pt;
+            margin-top: 0.15cm;
+        }
+
+        /*15%*/
+        div.estrella {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        img.estrella {
+            width: 0.5cm;
+            height: auto;
+            filter: var(--capsula);
+        }
+
+        /*** 50% ***/
+        div.caja-contratapa-sinopsis {
+            font-size: 8pt;
+            font-family: var(--tipo-titulo);
+            margin: 10%;
+            text-align: justify;
+            color: var(--blanco);
+
+        }
+
+
+        /*** 20% ***/
+        div.caja-contratapa-cajametadatos {
+            display: grid;
+            margin-left: 1cm;
+            margin-right: 1cm;
+            margin-bottom: -0.7cm;
+            grid-template-rows: auto auto auto auto;
+            grid-auto-rows: minmax(0, 1fr);
+            background-color: var(--blanco);
+            font-size: 8pt;
+            font-family: 'Bebas Neue';
+            letter-spacing: 0.5px;
+            overflow-wrap: break-word;
+            outline: 1px solid var(--blanco);
+            width: 12cm;
+
+        }
+
+        div.caja-contratapa-cajametadatos p {
+            margin: 2mm;
+        }
+
+        /*FILA 1*/
+        div.caja-row1 {
+            display: grid;
+            border-bottom: 0.3pt solid var(--negro);
+            grid-template-columns: auto auto auto auto;
+            margin-top: 0mm;
+        }
+
+        div.row1-col1 {
+            border-right: 0.3pt solid var(--negro);
+
+        }
+
+        div.row1-col2 {
+            border-right: 0.3pt solid var(--negro)k;
+
+        }
+
+        div.row1-col3 {
+            border-right: 0.3pt solid var(--negro);
+
+        }
+
+        div.row1-col4 {
+            /*  este contenedor no lleva border para que no se superponga*/
+
+        }
+
+        /*FILA 2*/
+        div.caja-row2 {
+
+            /*  este contenedor no lleva border para que no se superponga*/
+        }
+
+        /*FILA 3*/
+
+        div.caja-row3 {
+            display: grid;
+            border-top: 0.3pt solid var(--negro);
+            grid-template-columns: auto auto auto;
+
+        }
+
+        div.row3-col1 {
+            border-right: 0.3pt solid var(--negro);
+            background-image: var(--logo-blanco);
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: 2cm 0.7cm;
+           /* background-color: var(--negro);*/
+            padding-left: 4mm;
+            padding-right: 4mm;
+
+
+        }
+
+
+        div.row3-col2 {
+            border-right: 0.3pt solid var(--negro);
+            background-image: var(--isbn);
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: contain;
+            padding-left: 4mm;
+            padding-right: 4mm;
+        }
+
+        div.row3-col3 {
+            /*  este contenedor no lleva border para que no se superponga*/
+
+        }
+
+        /*LOMO */
+        div.lomo {
+            display: grid;
+            height: var(--alto);
+            width: var(--lomo);
+            justify-content: center;
+            align-items: center;
+
+        }
+
+        div.caja-lomo {
+            display: grid;
+            text-align: center;
+            align-items: center;
+            justify-content: center;
+            border-radius: 1cm;
+            background-color: var(--negro);
+            height: calc(var(--alto) - 1cm);
+            width: calc(var(--lomo) - 1cm);
+            margin: auto;
+            font-weight: 600;
+
+        }
+
+        div.caja-lomo-titulo {
+            display: grid;
+            grid-template-columns: 40% 40% 10% 10%;
+            transform: rotate(90deg);
+            text-align: center;
+            align-items: center;
+            justify-content: center;
+
+        }
+
+        div.titulo-lomo {
+            font-size: 14pt;
+            font-family: var(--tipo-titulo);
+            color: var(--blanco);
+            width: calc(var(--ancho) - 2cm);
+        }
+
+        div.autor-lomo {
+            font-size: 14pt;
+            font-family: var(--tipo-titulo);
+            color: var(--blanco);
+            width: calc(var(--ancho) - 2cm);
+        }
+
+        div.caja-estrella {
+            margin-left: -1.8cm;
+        }
+
+
+        div.caja-lomo-sello {
+            transform: rotate(-90deg);
+            margin-left: -3.5cm;
+        }
+
+        img.logo-lomo {
+            width: calc(var(--lomo) - 1.5cm);
+            height: auto;
+
+        }
+
+        object.logo-lomo {
+            width: calc(var(--lomo) - 1.5cm);
+            height: auto;
+
+        }
+
+        /****************** TAPA ********************/
+        div.tapa {
+            display: grid;
+            height: var(--alto);
+            width: var(--ancho);
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+
+        }
+
+        div.contenedor-tapa {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            grid-template-rows: 70% 30%;
+            height: calc(var(--alto) - 1cm);
+            width: calc(var(--ancho) - 2cm);
+            border-radius: 0.5cm;
+            background-color: var(--negro);
+            background-image: var(--img-cubierta);
+            background-size: cover;
+            position: relative;
+            z-index: 1;
+
+        }
+
+
+        .contenedor-tapa::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(to top,
+                    rgba(0, 0, 0, 1) 0%,
+                    rgba(0, 0, 0, 1) 35%,
+                    rgba(0, 0, 0, 0.4) 55%);
+            border-radius: 0.5cm;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        div.tapa-vacio {}
+
+        div.caja-textos-tapa {
+            display: grid;
+            grid-template-rows: 20% 30% 10% 20% 20%;
+            margin-top: 11cm;
+            justify-content: center;
+            align-items: center;
+        }
+
+        div.capsula-t {
+            background-color: var(--capsula);
+            border-radius: 0.9cm;
+            margin-left: 22%;
+            margin-right: 22%;
+            height: 0.8cm;
+            margin-bottom: -0.7cm;
+        }
+
+        p.capsula-t {
+            color: var(--negro);
+            text-align: center;
+            font-family: var(--tipo-titulo);
+            font-size: 14pt;
+            font-weight: bold;
+            letter-spacing: 3pt;
+            margin-top: 0cm;
+        }
+
+
+        div.titulo-tapa {
+            display: flex;
+            font-family: var(--tipo-titulo);
+            color: var(--blanco);
+            justify-content: center;
+            font-size: 24pt;
+            font-weight: 600;
+            text-align: center;
+
+        }
+
+        div.rulo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        img.rulo {
+            width: 0.7cm;
+            height: auto;
+        }
+
+        div.autor-tapa {
+            display: flex;
+            justify-content: center;
+            font-family: var(--tipo-titulo);
+            color: var(--blanco);
+            font-size: 22pt;
+            font-weight: 600;
+            text-align: center;
+
+        }
+
+        div.caja-sello-tapa {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: -2.4cm;
+        }
+
+        img.sello-tapa {
+            width: 25%;
+
+        }
+
+        /* SOLAPA 2 */
+
+        div.solapa2 {
+            display: grid;
+            height: var(--alto);
+            width: var(--ancho-solapa);
+            position: relative;
+            justify-content: center;
+            align-items: center;
+            z-index: 1;
+        }
+
+        p.bio-autor {
+            font-size: 8pt;
+            font-family: var(--tipo-titulo);
+            margin: 10%;
+            text-align: justify;
+            color: var(--blanco);
+        }
+
+        div.contenedor-solapa2 {
+            display: grid;
+            justify-content: center;
+            align-items: center;
+            height: calc(var(--alto) - 1cm);
+            width: calc(var(--ancho-solapa) - 1.3cm);
+            border-radius: 0.5cm;
+            background-color: var(--negro);
+            position: relative;
+            z-index: 1;
+            grid-template-rows: 40% 10% 40% 10%;
+            color: beige;
+        }
+
+        div.recomendados {
+            /* no borrar esto*/
+        }
+
+        div.recomendados p.recommended {
+            font-family: var(--tipo-titulo);
+            color: var(--blanco);
+            font-size: 18pt;
+            font-weight: 600;
+            margin-bottom: 0.5cm;
+            text-align: center;
+        }
+
+
+        div.foto-autor {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 0cm;
+            position: relative;
+        }
+
+        img.foto-autor {
+            border-radius: 0.2cm;
+            width: 100%;
+            display: block;
+        }
+
+        .gradiente-container {
+            position: relative;
+            width: 100%;
+            border-radius: 0.2cm;
+            overflow: hidden;
+        }
+
+        .gradiente-container::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2cm;
+            background: linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
+            pointer-events: none;
+            border-radius: 0 0 0.2cm 0.2cm;
+        }
+
+        div.sello-ed {
+            border: 1px solid orangered;
+        }
+
+        div.caja-sello-solapa1 {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 0.4cm;
+
+        }
+
+        img.sello-solapa1 {
+            width: 3cm;
+
+        }
+
+
+        /* Ejemplo de líneas de plegado */
+
+        div.mp-top1 {
+            position: absolute;
+            top: 0;
+            left: calc(var(--ancho) + 1cm);
+            border-left: 0.5px dotted var(--lineas);
+            width: var(--ancho);
+            height: 0.4cm;
+        }
+
+        div.mp-top2 {
+            position: absolute;
+            top: 0;
+            right: calc(var(--ancho) + 1cm);
+            border-right: 0.5px dotted var(--lineas);
+            width: var(--ancho);
+            height: 0.4cm;
+        }
+
+        div.mp-bottom1 {
+            position: absolute;
+            bottom: 0;
+            left: calc(var(--ancho) + 1cm);
+            border-left: 0.5px dotted var(--lineas);
+            width: var(--ancho);
+            height: 0.4cm;
+        }
+
+        div.mp-bottom2 {
+            position: absolute;
+            bottom: 0;
+            right: calc(var(--ancho) + 1cm);
+            border-right: 0.5px dotted var(--lineas);
+            width: var(--ancho);
+            height: 0.4cm;
+        }
+
+        span.awesome {
+            font-family: 'FontAwesome';
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <section class="cubierta-con-demasia">
+
+        <div class="cubierta">
+
+            <div class="solapa1">
+
+                <div class="contenedor-solapa1">
+
+                    <div class="recomendados">
+                        <p class="recommended">Recommended</p>
+                    </div>
+
+                    <div class="recomendacion1">
+                        <img src="https://data.livriz.com/REST/api/mediafile/getimagesecure/?url=https%3A%2F%2Fdata.livriz.com%2Fmedia%2FMediaSpace%2FF9AFB48D-741D-4834-B760-F59344EEFF34%2F4%2Fa44991e4-6166-4476-888e-f13e9ade6cd2%2F9789874886934.jpg"
+                            alt="rec" id="r2" class="recomendado1">
+                    </div>
+
+                    <div class="recomendacion2">
+                        <img src="https://data.livriz.com/REST/api/mediafile/getimagesecure/?url=https%3A%2F%2Fdata.livriz.com%2Fmedia%2FMediaSpace%2FF9AFB48D-741D-4834-B760-F59344EEFF34%2F4%2Fa44991e4-6166-4476-888e-f13e9ade6cd2%2F9789874886934.jpg"
+                            alt="rec" id="r1" class="recomendado2">
+                    </div>
+
+                    <div class="caja-sello-solapa1">
+                        <img src="C://Users/Sofi/Desktop/tapaoscura/img/signal-sello.svg" class="sello-solapa1">
+                    </div>
+
+
+                </div>
+            </div>
+
+            <div class="contratapa">
+                <div class="contenedor-contratapa">
+
+
+                    <div class="caja-contratapa-titulo">
+
+                        <div class="textos">
+                            <p class="titulo-ct">P.T. Barnaum</p>
+                            <p class="autor-ct">The Art of Money Getting </p>
+                        </div>
+
+                        <div class="capsula-ct">
+                            <p class="capsula-ct">ORIGINAL VERSION</p>
+                        </div>
+
+                        <div class="estrella">
+                            <img src="https://i.ibb.co/93rpqh6/estrella.png" alt="estrella" class="estrella">
+
+                        </div>
+                    </div>
+
+
+                    <div class="caja-contratapa-sinopsis">
+                        <i class="fa-solid fa-masks-theater"></i>
+                        Innovative and deeply poetic, The Waves is often regarded as Virginia Woolf’s masterpiece.
+                        It begins with six children—three boys and three girls—playing in a garden by the sea, and
+                        follows
+                        their lives as they grow up, experience friendship and love, and grapple with the death of their
+                        beloved friend Percival. Instead of describing their outward expressions of grief, Woolf draws
+                        her their lives as they grow up, experience friendship and love, and grapple with the death of
+                        their
+                        beloved friend Percival. Instead of describing their outward expressions of grief, Woolf draws
+                        her
+                        characters from the inside, revealing their inner lives: their aspirations, their triumphs and
+                        regrets, their awareness of unity and isolation.
+                        More than any of Virginia Woolf’s other novels, The Waves conveys the full complexity and
+                        richness
+                        of human experience.
+                    </div>
+
+                    <div class="caja-contratapa-cajametadatos">
+                        <div class="caja-row1">
+                            <div class="row1-col1">
+                                <p><span class="awesome"></span> Feminist literature / English Narrative Más datos más
+                                    datos</p>
+                            </div>
+                            <div class="row1-col2">
+                                <p><span class="awesome"> </span>14 x 21</p>
+                            </div>
+                            <div class="row1-col3">
+                                <p>216 pages</p>
+                            </div>
+                            <div class="row1-col4">
+                                <p>English</p>
+                            </div>
+                        </div>
+
+                        <div class="caja-row2">
+                            <p> Universal literature / narrative / newspapers, memories, autobiographs</p>
+                        </div>
+
+                        <div class="caja-row3">
+                            <div class="row3-col1"></div>
+                            <div class="row3-col2"></div>
+                            <div class="row3-col3">
+                                <p> www.delfondoeditorial.com<br />
+                                <p> info@delfondoeditorial.com<br />
+                                <p> @delfondoeditorial</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="lomo">
+
+                <div class="caja-lomo">
+                    <div class="caja-lomo-titulo">
+
+                        <div class="autor-lomo">
+                            <p>P.T. Barnaum</p>
+                        </div>
+
+                        <div class="titulo-lomo">
+                            <p>The Art of Money Getting</p>
+                        </div>
+
+                        <div class="caja-estrella">
+                            <img src="https://i.ibb.co/93rpqh6/estrella.png" alt="estrella" class="estrella">
+                        </div>
+
+
+                        <div class="caja-lomo-sello">
+                            <img src="https://i.ibb.co/Qmwh7jw/iso.png" alt="logo" class="logo-lomo">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tapa">
+                <div class="contenedor-tapa">
+
+                    <div class="tapa-vacio"></div>
+
+                    <div class="caja-textos-tapa">
+
+                        <div class="capsula-t">
+                            <p class="capsula-t">Personal finance</p>
+                        </div>
+
+                        <div class="titulo-tapa">
+                            <p>The Art of Money Getting</p>
+                        </div>
+
+                        <div class="rulo">
+                            <img src="https://i.ibb.co/jb849GR/rulo-2.png" class="rulo" />
+                        </div>
+
+
+
+                        <div class="autor-tapa">
+                            <p>P.T. Barnaum</p>
+                        </div>
+
+
+                        <div class="caja-sello-tapa">
+                            <img src="https://i.ibb.co/fSkcp9d/sello.png" class="sello-tapa">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="solapa2">
+
+                <div class="contenedor-solapa2">
+
+
+
+                    <div class="foto-autor">
+                        <div class="gradiente-container">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/P._T._Barnum_-_02176a.jpg/220px-P._T._Barnum_-_02176a.jpg"
+                                alt="rec" id="r2" class="foto-autor">
+                        </div>
+                    </div>
+
+                    <div class="recomendados">
+                        <p class="recommended">P.T. Barnaum</p>
+                    </div>
+
+                    <div class="recomendacion2">
+                        <p class="bio-autor">Phineas Taylor Barnum (Bethel, Connecticut, 5 de julio de 1810-Bridgeport,
+                            Connecticut, 7 de abril de 1891) fue un empresario, político y artista circense
+                            estadounidense, recordado por sus célebres engaños en el mundo del entretenimiento y por
+                            haber fundado el Barnum & Bailey Circus, el cual posteriormente se fusionó con el Ringling
+                            Brothers Circus para conformar el Ringling Brothers and Barnum & Bailey Circus. A pesar de
+                            que Barnum fue también un autor, editor, filántropo e incluso llegó a ser político, según
+                            dijo, su único objetivo era «tener los bolsillos llenos de dinero».</p>
+                    </div>
+
+                    <div class="caja-sello-solapa1">
+                        <img src="signal-sello.svg" class="sello-solapa1">
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        </div>
+    </section>
+    <div class="mp-top1"></div>
+    <div class="mp-top2"></div>
+
+    <div class="mp-bottom1"></div>
+    <div class="mp-bottom2"></div>
+</body>
+
+</html>
+
+</div>
+</div>
+</section>
+<div class="mp-top1"></div>
+<div class="mp-top2"></div>
+
+<div class="mp-bottom1"></div>
+<div class="mp-bottom2"></div>
+</body>
+
+</html>
